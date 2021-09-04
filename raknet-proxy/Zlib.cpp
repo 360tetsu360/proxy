@@ -45,7 +45,6 @@ size_t Zlib::Inflate(uint8_t* dst, int dst_offset, uLong dst_size,const uint8_t*
     inflateInit2(&stream, -MAX_WBITS);
 
     int result = inflate(&stream, 0);
-    std::cout << result << std::endl;
     if (result == Z_OK || result == Z_STREAM_END) {
         inflateEnd(&stream);
         return stream.total_out;

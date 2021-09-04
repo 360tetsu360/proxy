@@ -342,6 +342,10 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Framer.cpp">
+      <Filter>protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RaknetHandler.h" />
@@ -822,6 +826,10 @@
     <ClInclude Include="zlib\include\zlib.h">
       <Filter>zlib\include</Filter>
     </ClInclude>
+    <ClInclude Include="Framer.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RakNet">
@@ -838,6 +846,9 @@
     </Filter>
     <Filter Include="zlib\lib">
       <UniqueIdentifier>{f56739dc-8445-4b49-b7b1-1a688d581a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol">
+      <UniqueIdentifier>{fcfb0473-54ad-4875-b38a-167be423de3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

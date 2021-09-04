@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Framer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RaknetHandler.cpp" />
     <ClCompile Include="Source\Base64Encoder.cpp" />
     <ClCompile Include="Source\BitStream.cpp" />
@@ -136,6 +138,8 @@
     <ClCompile Include="Zlib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Framer.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RaknetHandler.h" />
     <ClInclude Include="Source\AutopatcherPatchContext.h" />
     <ClInclude Include="Source\AutopatcherRepositoryInterface.h" />
