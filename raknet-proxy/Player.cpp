@@ -39,7 +39,7 @@ void Player::Handle(RakNet::Packet* packet) {
             switch ((int)RawPacket[0])
             {
             case 1: // login packet | id-1byte | protocol version - 4byte | Chain data JWT | Skin data JWT | 
-                uint32_t size = 0;
+                uint32_t size = 0;//
                 int unkLength = Framer::get()->getVarint(RawPacket.data() + 5, size);
                 int chainDataLength = Framer::get()->getVarint(RawPacket.data() + 5 + size, size);
                 std::string ChainData = Framer::get()->readString(RawPacket.data() + 5 + size, chainDataLength - size);
