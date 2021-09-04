@@ -44,3 +44,8 @@ uint64_t Framer::getVarint(const uint8_t* const data, uint32_t& decoded_bytes) {
     decoded_bytes = i;
     return decoded_value;
 }
+
+
+std::string Framer::readString(const uint8_t* const data,int length) {
+    return std::string(data, data + length);
+}

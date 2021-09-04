@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <iostream>
 
 Player::Player()
 {
@@ -24,7 +25,6 @@ void Player::Handle(RakNet::Packet* packet) {
     }
     if (this->ClientAddress == packet->systemAddress && this->ClientGuid == packet->guid) {
         if (this->Encryption) {
-            //do something to decrypt data
         }
 
         std::vector<uint8_t> dst(600000);
@@ -34,7 +34,18 @@ void Player::Handle(RakNet::Packet* packet) {
         std::vector<std::vector<byte>> packets = Framer::get()->GetPackets(buffer); 
         //do something with packets;
 
-
+        for (auto RawPacket : packets)
+        {
+            switch ((int)RawPacket[0])
+            {
+            case 1: // login packet | id-1byte | protocol version - 4byte | Chain data JWT | Skin data JWT | 
+                uint32_t size = 0;
+                int unkLength = Framer::get()->getVarint(RawPacket.data() + 5, size);
+                int chainDataLength = Framer::get()->getVarint(RawPacket.data() + 5 + size, size);
+                std::string ChainData = Framer::get()->readString(RawPacket.data() + 5 + size, chainDataLength - size);
+                std::cout << ChainData << std::endl;
+            }
+        }
 
 
         std::vector<uint8_t>().swap(buffer);
