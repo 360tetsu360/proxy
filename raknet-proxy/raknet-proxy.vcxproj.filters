@@ -346,6 +346,15 @@
       <Filter>protocol</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Reader.cpp">
+      <Filter>protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerData.cpp">
+      <Filter>Axolotol</Filter>
+    </ClCompile>
+    <ClCompile Include="nlohmannJwt.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RaknetHandler.h" />
@@ -830,6 +839,24 @@
       <Filter>protocol</Filter>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Reader.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="picojson\picojson.h">
+      <Filter>others</Filter>
+    </ClInclude>
+    <ClInclude Include="nlohmann\json.hpp">
+      <Filter>others</Filter>
+    </ClInclude>
+    <ClInclude Include="jwt-cpp\jwt.h">
+      <Filter>others</Filter>
+    </ClInclude>
+    <ClInclude Include="jwt-cpp\base.h">
+      <Filter>others</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>Axolotol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RakNet">
@@ -849,6 +876,12 @@
     </Filter>
     <Filter Include="protocol">
       <UniqueIdentifier>{fcfb0473-54ad-4875-b38a-167be423de3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="others">
+      <UniqueIdentifier>{a3d32caa-c8d0-434b-94fa-5a33b2c12448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Axolotol">
+      <UniqueIdentifier>{5fb2aab0-8b13-4cae-98f4-dcd890eaa86d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

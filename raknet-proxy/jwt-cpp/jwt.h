@@ -6,6 +6,7 @@
 #define PICOJSON_USE_INT64
 #endif
 #include "picojson/picojson.h"
+#include "../nlohmann/json.hpp"
 #endif
 
 #ifndef JWT_DISABLE_BASE64
@@ -3368,59 +3369,69 @@ namespace jwt {
 
 #ifndef JWT_DISABLE_PICOJSON
 	struct picojson_traits {
-		using value_type = picojson::value;
-		using object_type = picojson::object;
-		using array_type = picojson::array;
-		using string_type = std::string;
-		using number_type = double;
-		using integer_type = int64_t;
-		using boolean_type = bool;
+		using json = nlohmann::json;
+		using value_type = nlohmann::json;
+		using object_type = nlohmann::json::object_t;
+		using array_type = nlohmann::json::array_t;
+		using string_type = std::string; // current limitation of traits implementation
+		using number_type = nlohmann::json::number_float_t;
+		using integer_type = nlohmann::json::number_integer_t;
+		using boolean_type = nlohmann::json::boolean_t;
 
-		static json::type get_type(const picojson::value& val) {
-			using json::type;
-			if (val.is<bool>()) return type::boolean;
-			if (val.is<int64_t>()) return type::integer;
-			if (val.is<double>()) return type::number;
-			if (val.is<std::string>()) return type::string;
-			if (val.is<picojson::array>()) return type::array;
-			if (val.is<picojson::object>()) return type::object;
+		static jwt::json::type get_type(const nlohmann::json& val) {
+			using jwt::json::type;
+
+			if (val.type() == nlohmann::json::value_t::boolean) return type::boolean;
+			if (val.type() == nlohmann::json::value_t::number_integer) return type::integer;
+			if (val.type() == nlohmann::json::value_t::number_unsigned) // nlohmann internally tracks two types of integers
+				return type::integer;
+			if (val.type() == nlohmann::json::value_t::number_float) return type::number;
+			if (val.type() == nlohmann::json::value_t::string) return type::string;
+			if (val.type() == nlohmann::json::value_t::array) return type::array;
+			if (val.type() == nlohmann::json::value_t::object) return type::object;
 
 			throw std::logic_error("invalid type");
 		}
 
-		static picojson::object as_object(const picojson::value& val) {
-			if (!val.is<picojson::object>()) throw std::bad_cast();
-			return val.get<picojson::object>();
+		static nlohmann::json::object_t as_object(const nlohmann::json& val) {
+			if (val.type() != nlohmann::json::value_t::object) throw std::bad_cast();
+			return val.get<nlohmann::json::object_t>();
 		}
 
-		static std::string as_string(const picojson::value& val) {
-			if (!val.is<std::string>()) throw std::bad_cast();
+		static std::string as_string(const nlohmann::json& val) {
+			if (val.type() != nlohmann::json::value_t::string) throw std::bad_cast();
 			return val.get<std::string>();
 		}
 
-		static picojson::array as_array(const picojson::value& val) {
-			if (!val.is<picojson::array>()) throw std::bad_cast();
-			return val.get<picojson::array>();
+		static nlohmann::json::array_t as_array(const nlohmann::json& val) {
+			if (val.type() != nlohmann::json::value_t::array) throw std::bad_cast();
+			return val.get<nlohmann::json::array_t>();
 		}
 
-		static int64_t as_int(const picojson::value& val) {
-			if (!val.is<int64_t>()) throw std::bad_cast();
-			return val.get<int64_t>();
+		static int64_t as_int(const nlohmann::json& val) {
+			switch (val.type()) {
+			case nlohmann::json::value_t::number_integer:
+			case nlohmann::json::value_t::number_unsigned: return val.get<int64_t>();
+			default: throw std::bad_cast();
+			}
 		}
 
-		static bool as_bool(const picojson::value& val) {
-			if (!val.is<bool>()) throw std::bad_cast();
+		static bool as_bool(const nlohmann::json& val) {
+			if (val.type() != nlohmann::json::value_t::boolean) throw std::bad_cast();
 			return val.get<bool>();
 		}
 
-		static double as_number(const picojson::value& val) {
-			if (!val.is<double>()) throw std::bad_cast();
+		static double as_number(const nlohmann::json& val) {
+			if (val.type() != nlohmann::json::value_t::number_float) throw std::bad_cast();
 			return val.get<double>();
 		}
 
-		static bool parse(picojson::value& val, const std::string& str) { return picojson::parse(val, str).empty(); }
+		static bool parse(nlohmann::json& val, std::string str) {
+			val = nlohmann::json::parse(str.begin(), str.end());
+			return true;
+		}
 
-		static std::string serialize(const picojson::value& val) { return val.serialize(); }
+		static std::string serialize(const nlohmann::json& val) { return val.dump(); }
 	};
 
 	/**
@@ -3429,7 +3440,7 @@ namespace jwt {
 	 * This type is the default specialization of the \ref basic_claim class which
 	 * uses the standard template types.
 	 */
-	using claim = basic_claim<picojson_traits>;
+	using claim = basic_claim<nlohmann::json>;
 
 	/**
 	 * Create a verifier using the default clock

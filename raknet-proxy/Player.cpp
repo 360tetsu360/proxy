@@ -1,5 +1,7 @@
 #include "Player.h"
+#include "PlayerData.h"
 #include <iostream>
+using namespace nlohmann;
 
 Player::Player()
 {
@@ -39,11 +41,19 @@ void Player::Handle(RakNet::Packet* packet) {
             switch ((int)RawPacket[0])
             {
             case 1: // login packet | id-1byte | protocol version - 4byte | Chain data JWT | Skin data JWT | 
-                uint32_t size = 0;//
-                int unkLength = Framer::get()->getVarint(RawPacket.data() + 5, size);
-                int chainDataLength = Framer::get()->getVarint(RawPacket.data() + 5 + size, size);
-                std::string ChainData = Framer::get()->readString(RawPacket.data() + 5 + size, chainDataLength - size);
-                std::cout << ChainData << std::endl;
+                Reader r = Reader(RawPacket.data(), RawPacket.size());
+                r.ReadByte();
+                std::cout << "version:" << r.ReadBigEndian() << std::endl;
+                uint32_t unknown = 0;
+                r.ReadVarInt(unknown);
+                std::cout << unknown << std::endl;
+                int JWTlength = r.ReadUnInt();
+                std::string JWTs = r.ReadString(JWTlength);
+                HandleChain(JWTs);
+                uint32_t test = r.ReadUnInt();
+                std::string skin = r.ReadString(test);
+                PlayerData pdata = PlayerData(skin);
+                std::cout << pdata.PersonaPieces << std::endl;
             }
         }
 
@@ -52,5 +62,24 @@ void Player::Handle(RakNet::Packet* packet) {
         for (auto item : packets)
             std::vector<byte>().swap(item);
         std::vector<std::vector<byte>>().swap(packets);
+    }
+}
+
+
+void Player::HandleJWT(std::string JWTformat) {
+    /*auto data = jwt::decode(JWTformat);
+    for (auto& e : data.get_payload_claims()) {
+        if (e.first == "extraData") {
+            std::cout << e.second.to_json().get("XUID") << std::endl;
+        }
+        std::cout << e.first << " = " << e.second << std::endl;
+    }*/
+}
+
+void Player::HandleChain(std::string ChainJson) {
+    json chaindata = json::parse(ChainJson);
+    for (auto jwts : chaindata["chain"])
+    {
+        HandleJWT(jwts);
     }
 }

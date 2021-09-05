@@ -1,5 +1,6 @@
 #pragma once
 #include "Zlib.h"
+#define NOMINMAX 
 #include <Windows.h>
 #include <vector>
 #include <string>

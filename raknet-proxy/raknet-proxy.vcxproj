@@ -21,8 +21,11 @@
   <ItemGroup>
     <ClCompile Include="Framer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="nlohmannJwt.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerData.cpp" />
     <ClCompile Include="RaknetHandler.cpp" />
+    <ClCompile Include="Reader.cpp" />
     <ClCompile Include="Source\Base64Encoder.cpp" />
     <ClCompile Include="Source\BitStream.cpp" />
     <ClCompile Include="Source\CCRakNetSlidingWindow.cpp" />
@@ -139,8 +142,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framer.h" />
+    <ClInclude Include="jwt-cpp\base.h" />
+    <ClInclude Include="jwt-cpp\jwt.h" />
+    <ClInclude Include="nlohmann\json.hpp" />
+    <ClInclude Include="picojson\picojson.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerData.h" />
     <ClInclude Include="RaknetHandler.h" />
+    <ClInclude Include="Reader.h" />
     <ClInclude Include="Source\AutopatcherPatchContext.h" />
     <ClInclude Include="Source\AutopatcherRepositoryInterface.h" />
     <ClInclude Include="Source\Base64Encoder.h" />
@@ -405,7 +414,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kasum\source\repos\raknet-proxy\raknet-proxy\zlib\include;C:\Users\kasum\source\repos\raknet-proxy\raknet-proxy\Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kasum\source\repos\raknet-proxy\raknet-proxy\openssl;C:\Users\kasum\source\repos\raknet-proxy\raknet-proxy\zlib\include;C:\Users\kasum\source\repos\raknet-proxy\raknet-proxy\Source</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
